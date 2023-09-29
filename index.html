@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umbrella Insurance Estimator</title>
+    <script>
+        function calculateInsurance() {
+            const netWorth = parseFloat(document.getElementById("netWorth").value);
+            const futureIncome = parseFloat(document.getElementById("annualIncome").value) * parseFloat(document.getElementById("yearsToRetirement").value);
+            const propertyValue = parseFloat(document.getElementById("propertyValue").value);
+            
+            let riskFactor = 0;
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => riskFactor += parseInt(checkbox.value));
+            
+            const baseAmount = 100000;
+            const additionalCoverage = 0.2 * (netWorth + propertyValue);
+            const inflationAdjustment = Math.pow(1.03, parseFloat(document.getElementById("yearsToRetirement").value));
+            const estimatedInsurance = (netWorth + futureIncome + (riskFactor * baseAmount) + additionalCoverage) * inflationAdjustment;
+            
+            document.getElementById("result").textContent = `Estimated Umbrella Insurance Needed: $${estimatedInsurance.toFixed(2)}`;
+        }
+    </script>
+</head>
+<body>
+    <h1>Umbrella Insurance Estimation:</h1>
+    <form onsubmit="event.preventDefault(); calculateInsurance();">
+        <label>
+            Total value of your assets:
+            <input type="number" id="netWorth" required>
+        </label><br>
+        <label>
+            Total value of your liabilities:
+            <input type="number" id="liabilities" required>
+        </label><br>
+        <label>
+            Annual income:
+            <input type="number" id="annualIncome" required>
+        </label><br>
+        <label>
+            Years until retirement:
+            <input type="number" id="yearsToRetirement" required>
+        </label><br>
+        <label>
+            Total value of properties you own:
+            <input type="number" id="propertyValue" required>
+        </label><br>
+        <label>
+            High-risk occupation:
+            <input type="checkbox" value="2">
+        </label><br>
+        <label>
+            Frequently engage in high-risk activities:
+            <input type="checkbox" value="1">
+        </label><br>
+        <label>
+            Frequently travel internationally:
+            <input type="checkbox" value="1">
+        </label><br>
+        <label>
+            Own multiple or high-risk vehicles:
+            <input type="checkbox" value="2">
+        </label><br>
+        <label>
+            Employ domestic staff:
+            <input type="checkbox" value="2">
+        </label><br>
+        <label>
+            Own pets:
+            <input type="checkbox" value="1">
+        </label><br>
+        <button type="submit">Calculate</button>
+    </form>
+    <p id="result"></p>
+</body>
+</html>
